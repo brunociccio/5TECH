@@ -54,39 +54,29 @@ No cenário altamente competitivo do setor de varejo, a conversão de leads em n
 
 ### Endpoints relacionados ao Cadastro do Usuário 
 
-- [Login](#login)
-- [Login Apple](#apple)
-- [Login Google](#google)
-- [Esqueceu Senha](#esqueceu-senha)
-- [Criar conta](#criar-conta)
+- [Listar todos os cadastros](#Listar)
+- [Buscar cadastro por ID](#Buscar)
+- [Cadastrar novo usuário](#Cadastrar)
 
-## Login
+## Listar
 
-`POST` /login : Realiza a autenticação do usuário tatuador utilizando email e senha.
-
-#### Corpo da Requisição
-
-|campo|tipo|obrigatório|descrição
-|-----|----|:-----------:|---------
-|email|string|sim|O email do usuário tatuador
-|senha|string|sim|A senha do usuário tatuador
-
-#### Exemplo de Requisição
-
-```js
-//POST /login
-{
-    "email": "exemplo@dominio.com",
-    "senha": "senha123"
-}
-```
+`GET` /cadastros : Retorna todos os cadastros de usuários.
 
 #### Exemplo de Resposta
 
 ```js
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-}
+[
+    {
+        "id": 1,
+        "nome": "Usuário 1",
+        "email": "usuario1@example.com"
+    },
+    {
+        "id": 2,
+        "nome": "Usuário 2",
+        "email": "usuario2@example.com"
+    }
+]
 ```
 
 #### Códigos de Status [status code]
@@ -94,34 +84,25 @@ No cenário altamente competitivo do setor de varejo, a conversão de leads em n
 |código|descrição
 |------|---------
 |200|Autenticação bem sucedida
-|400|Validação falhou. Verifique o corpo da requisição
-|401|Credenciais inválidas. Verifique o email e senha fornecidos
 |404|Usuário não encontrado
 
-## Login Apple
+## Buscar
 
-`POST` /login/apple : Realiza a autenticação do usuário tatuador utilizando a autenticação da Apple.
+`GET` /cadastros/{id} : Retorna o cadastro do usuário com o ID especificado.
 
-#### Corpo da Requisição
+#### Parametros de URL
 
-|campo|tipo|obrigatório|descrição
-|-----|----|:-----------:|---------
-|token|string|sim|O token de autenticação Apple
-
-#### Exemplo de Requisição
-
-```js
-//POST /login/apple
-{
-    "token": "apple_token_here"
-}
-```
+|Parametro|tipo|descrição
+|-----|----|---------
+id|Long|Id do Usuário
 
 #### Exemplo de Resposta
 
 ```js
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    "id": 1,
+    "nome": "Usuário 1",
+    "email": "usuario1@example.com"
 }
 ```
 
@@ -130,114 +111,172 @@ No cenário altamente competitivo do setor de varejo, a conversão de leads em n
 |código|descrição
 |------|---------
 |200|Autenticação bem sucedida
-|400|Validação falhou. Verifique o corpo da requisição
-|401|Credenciais inválidas. Verifique o email e senha fornecidos
-
-## Login Google
-
-`POST` /login/google : Realiza a autenticação do usuário tatuador utilizando a autenticação do Google.
-
-#### Corpo da Requisição
-
-|campo|tipo|obrigatório|descrição
-|-----|----|:-----------:|---------
-|token|string|sim|O token de autenticação do Google
-
-#### Exemplo de Requisição
-
-```js
-//POST /login/google
-{
-    "token": "google_token_here"
-}
-```
-
-#### Exemplo de Resposta
-
-```js
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-}
-```
-
-#### Códigos de Status [status code]
-
-|código|descrição
-|------|---------
-|200|Autenticação bem sucedida
-|400|Validação falhou. Verifique o corpo da requisição
-|401|Credenciais inválidas. Verifique o email e senha fornecidos
-
-## Esqueceu Senha
-
-`POST` /esqueceu-senha : Envia um email de recuperação de senha para o usuário tatuador.
-
-#### Corpo da Requisição
-
-|campo|tipo|obrigatório|descrição
-|-----|----|:-----------:|---------
-|email|string|sim|O email do usuário tatuador
-
-#### Exemplo de Requisição
-
-```js
-//POST /esqueceu-senha
-{
-    "email": "exemplo@dominio.com"
-}
-```
-
-#### Exemplo de Resposta
-
-```js
-{
-     "message": "Email de recuperação de senha enviado com sucesso"
-}
-```
-
-#### Códigos de Status [status code]
-
-|código|descrição
-|------|---------
-|200|Autenticação bem sucedida
-|400|Validação falhou. Verifique o corpo da requisição
 |404|Usuário não encontrado
 
-## Criar Conta
+## Cadastrar
 
-`POST` /criar-conta : Cria uma nova conta de usuário tatuador.
+`POST` /cadastros : Cadastra um novo usuário.
 
 #### Corpo da Requisição
 
 |campo|tipo|obrigatório|descrição
 |-----|----|:-----------:|---------
-|nome|string|sim|O nome do usuário tatuador
-|email|string|sim|O email do usuário tatuador
-|senha|string|sim|A senha do usuário tatuador
+|nome|String|sim|Nome do usuário
+|email|String|sim|Email do usuário
 
 #### Exemplo de Requisição
 
 ```js
-//POST /criar-conta
+//POST /cadastros
 {
-    "nome": "Exemplo",
-    "email": "exemplo@dominio.com",
-    "senha": "senha123"
+    "nome": "Novo Usuário",
+    "email": "novo_usuario@example.com"
 }
+
 ```
 
 #### Exemplo de Resposta
 
 ```js
 {
-    "message": "Conta criada com sucesso"
+    "id": 3,
+    "nome": "Novo Usuário",
+    "email": "novo_usuario@example.com"
 }
+
 ```
 
 #### Códigos de Status [status code]
 
 |código|descrição
 |------|---------
-|200|Autenticação bem sucedida
+|201|Usuário cadastrado com sucesso
 |400|Validação falhou. Verifique o corpo da requisição
-|409|Conflito. O email já está em uso por outra conta
+
+---------------------------------------------------------------------------------------------------------------------------------------
+### Endpoints relacionados ao Cadastro de CNPJ
+
+- [Buscar cadastro CNPJ por ID](#BuscarCNPJ)
+
+## BuscarCNPJ
+
+`GET` /api/cadastrarCnpj/{id} : Retorna o cadastro de CNPJ com o ID especificado.
+
+#### Parametros de URL
+
+|Parametro|tipo|descrição
+|-----|----|---------
+id|int|Id do cadastro CNPJ
+
+#### Exemplo de Resposta
+
+```js
+{
+    "id": 1,
+    "cnpj": "12345678901234",
+    "nomeFantasia": "Empresa XYZ",
+    "endereco": "Rua ABC, 123",
+    "telefone": "(11) 1234-5678"
+}
+
+```
+
+#### Códigos de Status [status code]
+
+|código|descrição
+|------|---------
+|201|Usuário cadastrado com sucesso
+|404|Cadastro de CNPJ não encontrado
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+### Endpoints relacionados à Documentação
+
+- [Buscar documentação por ID](#BuscarDocumentação)
+- [Criar nova documentação](#CriarDocumentação)
+
+## BuscarDocumentação
+
+`GET` /api/documentacao/{id} : Retorna a documentação com o ID especificado.
+
+#### Parametros de URL
+
+|Parametro|tipo|descrição
+|-----|----|---------
+id|int|Id da doumentação
+
+#### Exemplo de Resposta
+
+```js
+{
+    "id": 1,
+    "titulo": "Documentação do Projeto",
+    "descricao": "Esta é a documentação detalhada do projeto XYZ.",
+    "versao": "1.0",
+    "dataCriacao": "2024-04-14",
+    "autor": "João Silva"
+}
+
+```
+
+#### Códigos de Status [status code]
+
+|código|descrição
+|------|---------
+|200|Requisição bem-sucedida
+|404|Documentação não encontrada
+
+## CriarDocumentação
+
+`POST` /api/documentacao : Cria uma nova documentação.
+
+#### Corpo da Requisição
+
+|campo|tipo|obrigatório|descrição
+|-----|----|:-----------:|---------
+titulo|String|Sim|Título da documentação
+descricao|String|Sim|Descrição da documentação
+versao|String|Sim|Versão da documentação
+dataCriacao|String|Sim|Data de criação da documentação (no formato "yyyy-MM-dd")
+autor|String|Sim|Autor da documentação
+cpf|String|Sim|CPF do autor da documentação
+rg|String|Sim|RG do autor da documentação
+
+#### Exemplo de Requisição
+
+```js
+// POST /api/documentacao
+{
+    "titulo": "Documentação do Projeto",
+    "descricao": "Esta é a documentação detalhada do projeto XYZ.",
+    "versao": "1.0",
+    "dataCriacao": "2024-04-14",
+    "autor": "João Silva",
+    "cpf": "123.456.789-01",
+    "rg": "123456789"
+}
+
+
+```
+
+#### Exemplo de Resposta
+
+```js
+{
+    "id": 1,
+    "titulo": "Documentação do Projeto",
+    "descricao": "Esta é a documentação detalhada do projeto XYZ.",
+    "versao": "1.0",
+    "dataCriacao": "2024-04-14",
+    "autor": "João Silva",
+    "cpf": "123.456.789-01",
+    "rg": "123456789"
+}
+
+
+```
+
+|código|descrição
+|------|---------
+|201|Usuário cadastrado com sucesso
+|400|Validação falhou. Verifique o corpo da Requisição
