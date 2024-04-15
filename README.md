@@ -273,7 +273,6 @@ rg|String|Sim|RG do autor da documentação
     "rg": "123456789"
 }
 
-
 ```
 
 |código|descrição
